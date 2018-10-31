@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace plot__thesprite
 {
-    public partial class Form1 : Form
+    public partial class SPRITE : Form
     {
-        public Form1()
+        public SPRITE()
         {
             InitializeComponent();
         }
