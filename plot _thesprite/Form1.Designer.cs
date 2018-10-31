@@ -1,6 +1,6 @@
 ﻿namespace plot__thesprite
 {
-    partial class SPRITE
+    partial class Form
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // SPRITE
+            // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "SPRITE";
-            this.Text = "Form1";
+            this.Name = "Form";
+            this.Text = "SPRITE";
             this.ResumeLayout(false);
 
         }
