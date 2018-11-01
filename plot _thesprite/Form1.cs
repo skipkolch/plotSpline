@@ -22,6 +22,8 @@ namespace plot__thesprite
 
         private MtdProg metodProd;
 
+        private FormSpline nextForm;
+
         private int N;
         private double H;
 
@@ -243,6 +245,14 @@ namespace plot__thesprite
 
             fucn = new double[N];
             x = new double[N];
+        }
+
+        private void spriteBtn_Click(object sender, EventArgs e)
+        {
+            nextForm = new FormSpline();
+            nextForm.SetN(int.Parse(textBox1.Text));
+            nextForm.StartCalculateSpline();
+            nextForm.Show();
         }
     }
 }
