@@ -52,6 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSpline.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSpline.Designer.cs">
+      <DependentUpon>FormSpline.cs</DependentUpon>
+    </Compile>
     <Compile Include="MtdProg.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
