@@ -18,162 +18,231 @@ namespace plot__thesprite
         private double[] d;
 
         private double[] fucn;
-        private double[] trueFucn;
-
+        private double[] x;
 
         private MtdProg metodProd;
 
-        private int size = 50;
-        private int H;
+        private int N;
+        private double H;
 
 
         public Form()
         {
             InitializeComponent();
-
-            a = new double[size];
-            b = new double[size];
-            c = new double[size];
-            d = new double[size];
-
-            fucn = new double[size];
-            trueFucn = new double[size];
         }
 
-        private void dataToArrays()
-        {
-           try
-           {
-                int size = dataGridView1.ColumnCount;
 
-                a = new double[size];
-                b = new double[size];
-                c = new double[size];
-                d = new double[size];
-
-                for (int i = 0; i < size; i++)
-                {
-                    a[i] = Convert.ToDouble(dataGridView1.Rows[i].Cells["A"].Value);
-                    b[i] = Convert.ToDouble(dataGridView1.Rows[i].Cells["B"].Value);
-                    c[i] = Convert.ToDouble(dataGridView1.Rows[i].Cells["C"].Value);
-                    d[i] = Convert.ToDouble(dataGridView1.Rows[i].Cells["D"].Value);
-
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-                return;
-            }
-
-        }
-
-        private void ArrayToData(double[] arr, string Cell)
-        {
-            for(int i = 0, N = arr.Length; i < N; i++)
-                dataGridView1.Rows[i].Cells[Cell].Value = arr[i];
-        }
-
-        private void calcBtn_Click(object sender, EventArgs e)
+        private void calcBtn_Click(double yN)
         {
             metodProd = new MtdProg(a, b, c, d);
-            fucn = metodProd.getCalculatedY();
+
+            metodProd.setYN(yN);
+
+            fucn = metodProd.getCalculatedY(yN);               
         }
+
+        void Clear()
+        {
+            chart1.Series[0].Points.Clear();
+            chart1.Series[1].Points.Clear();
+
+            InitializeArrays(N);
+        }
+
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch(comboBox1.SelectedIndex)
+            
+            if (textBox1.Text.Length != 0)
             {
-                case 0: { CalcTask1(); break; }
-                case 1: { CalcTask2(); break; }
+                N = Convert.ToInt32(textBox1.Text);
+
+                Clear();
+
+                switch (comboBox1.SelectedIndex)
+                {
+                    case 0:
+                        {
+                            CalcTask1();
+                            calcBtn_Click(-1);
+
+                            DrawFirst();
+                            break;
+                        }
+                    case 1:
+                        {
+                            CalcTask2();
+                            calcBtn_Click(1);
+
+                            DrawSecond();
+                            break;
+                        }
+
+                    case 2:
+                        {
+                            CalcTask3();
+                            calcBtn_Click(Math.E - 2);
+
+                            DrawThird();
+                            break;
+                        }
+                    case 3:
+                        {
+                            CalcTask4();
+                            calcBtn_Click(0);
+
+                            DrawFour();
+                            break;
+                        }
+                }
             }
+            else
+                MessageBox.Show("ENTER N");
         }
 
         private void CalcTask1()
         {
-            H = 1 / size;
+            H = 1 / (Convert.ToDouble(N) - 1);
+
+            for (int i = 1; i < N; i++)
+            {
+                x[i] = i * H;
+                a[i] = -2 - H * H;
+                b[i] = 1;
+                c[i] = 1;
+                d[i] = 2 * H * H * x[i];
+            }
+            a[0] = 1;
+            b[0] = 0;
+            c[0] = 0;
+            d[0] = 0;
+            x[0] = 0;
+        }
+
+
+        private void CalcTask2()
+        {
+            H = 1 / (Convert.ToDouble(N) - 1);
+            for (int i = 1; i < N; i++)
+            {
+                x[i] = i * H;
+                a[i] = -4;
+                b[i] = 2 + H;
+                c[i] = 2 - H;
+                d[i] = 2 * H * H;
+            }
+            a[0] = 1;
+            b[0] = -1;
+            c[0] = 0;
+            d[0] = 0;
+            x[0] = 0;
+        }
+
+
+        private void CalcTask3()
+        {
+            H = 1 / (Convert.ToDouble(N) - 1);
+            for (int i = 1; i < N; i++)
+            {
+                x[i] = i * H;
+                a[i] = -4;
+                b[i] = 2 - H;
+                c[i] = 2 + H;
+                d[i] = 0;
+            }
+            a[0] = 1;
+            b[0] = 0;
+            c[0] = 0;
+            d[0] = -1;
+            x[0] = 0;
+        }
+
+
+        private void CalcTask4()
+        {
+            H = (Math.PI / 2) / (Convert.ToDouble(N) - 1);
+            for (int i = 1; i < N; i++)
+            {
+                x[i] = i * H;
+                a[i] = H * H - 2;
+                b[i] = 1;
+                c[i] = 1;
+                d[i] = H * H;
+            }
 
             a[0] = 1;
             b[0] = 0;
             c[0] = 0;
             d[0] = 0;
+            x[0] = 0;
 
-            for(int i = 1; i < size - 1; i++)
+        }
+
+        void DrawFirst()
+        {
+            for (double i = 0; i <= 1; i += 0.5)
             {
-                a[i] = -2 - H*H;
-                b[i] = 1;
-                c[i] = 1;
-                d[i] = 2 * H * H * (i - 1) * H;
+                double Y = Math.Sinh(i) / Math.Sinh(1) - 2 * i;
+                chart1.Series[0].Points.AddXY(i, Y);
             }
 
-            a[size - 1] = 1;
-            b[size - 1] = 0;
-            c[size - 1] = 0;
-            d[size - 1] = -1;
-
-            AllArrayToGrid();
+            for (int i = 0; i < N; i++)
+            {
+                chart1.Series[1].Points.AddXY(x[i], fucn[i]);
+            }
         }
 
-        private void CalcTask2()
+        void DrawSecond()
         {
-            H = 1 / size;
-
-            a[0] = 1;
-            b[0] = -1;
-            c[0] = 0;
-            d[0] = 0;
-
-            for (int i = 1; i < size - 1; i++)
+            for (double i = 0; i <= 1; i += 0.5)
             {
-                a[i] = -4;
-                b[i] = 2 + H;
-                c[i] = 2 - H;
-                d[i] = 2 * H * H;
+                double Y = i + Math.Pow(Math.E, -i) - Math.Pow(Math.E, -1);
+                chart1.Series[0].Points.AddXY(i, Y);
             }
 
-            a[size - 1] = 1;
-            b[size - 1] = 0;
-            c[size - 1] = 0;
-            d[size - 1] = 1;
-
-            AllArrayToGrid();
-        }
-        private void CalcTask3()
-        {
-            H = 1 / size;
-
-            a[0] = 1;
-            b[0] = -1;
-            c[0] = 0;
-            d[0] = 0;
-
-            for (int i = 1; i < size - 1; i++)
+            for (int i = 0; i < N; i++)
             {
-                a[i] = -4;
-                b[i] = 2 + H;
-                c[i] = 2 - H;
-                d[i] = 2 * H * H;
+                chart1.Series[1].Points.AddXY(x[i], fucn[i]);
+            }
+        }
+
+        void DrawThird()
+        {
+            for (double i = 0; i <= 1; i += 0.5)
+            {
+                double Y = Math.Pow(Math.E, i) - 2;
+                chart1.Series[0].Points.AddXY(i, Y);
             }
 
-            a[size - 1] = 1;
-            b[size - 1] = 0;
-            c[size - 1] = 0;
-            d[size - 1] = 1;
-
-            AllArrayToGrid();
+            for (int i = 0; i < N; i++)
+            {
+                chart1.Series[1].Points.AddXY(x[i], fucn[i]);
+            }
         }
 
-        private void AllArrayToGrid()
+        void DrawFour()
         {
-            ArrayToData(a, "A");
-            ArrayToData(b, "B");
-            ArrayToData(c, "C");
-            ArrayToData(d, "D");
+            for (double i = 0; i <= Math.PI / 2; i += 0.5)
+            {
+                double Y = 1 - Math.Sin(i) - Math.Cos(i);
+                chart1.Series[0].Points.AddXY(i, Y);
+            }
+
+            for (int i = 0; i < N; i++)
+            {
+                chart1.Series[1].Points.AddXY(x[i], fucn[i]);
+            }
         }
 
-        private void CalculateTrueFucn()
+        private void InitializeArrays(int N)
         {
+            a = new double[N];
+            b = new double[N];
+            c = new double[N];
+            d = new double[N];
 
+            fucn = new double[N];
+            x = new double[N];
         }
     }
 }

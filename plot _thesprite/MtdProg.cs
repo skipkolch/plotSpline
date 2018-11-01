@@ -18,9 +18,6 @@ namespace plot__thesprite
 
         private double[] Y;
 
-        private double GU_inA;
-        private double GU_inB;
-
         private int N;
 
         public MtdProg(int N)
@@ -34,13 +31,14 @@ namespace plot__thesprite
             U = new double[N];
             V = new double[N];
 
-            Y = new double[N];
-
-            GU_inA = double.NaN;
-            GU_inB = double.NaN;
-            
+            Y = new double[N];            
         }
 
+
+        public void setYN(double y)
+        {
+            Y[N - 1] = y;
+        }
 
         public MtdProg(double[] a, double[] b, double[] c, double[] d)
         {
@@ -55,9 +53,6 @@ namespace plot__thesprite
             V = new double[N];
 
             Y = new double[N];
-
-            GU_inA = double.NaN;
-            GU_inB = double.NaN;
         }
 
        
@@ -81,22 +76,13 @@ namespace plot__thesprite
             this.D = d;
         }
 
-        public void setGU_inA(double a)
-        {
-            this.GU_inA = a;
-        }
-
-        public void setGU_inB(double b)
-        {
-            this.GU_inB = b;
-        }
 
 
         private void CalculateV()
         {
             V[0] = -B[0] / A[0];
 
-            for(int i = 1; i < N; i++)
+            for(int i = 1; i < N - 1; i++)
                 V[i] = (-B[i])/(C[i]*V[i-1] + A[i]);
 
         }
@@ -110,29 +96,21 @@ namespace plot__thesprite
 
         }
 
-        private void CalculateY()
+        private void CalculateY(double y_N)
         {
-            if (GU_inA != double.NaN && GU_inB != double.NaN)
-            {
-
-                Y[0] = GU_inA;
-                Y[N - 1] = GU_inB;
-
-                for(int i = N - 2; i >= 0; i--)
-                    Y[i] = V[i] * Y[i + 1] + U[i];
-
-            }
-            else throw new InvalidOperationException("Set boundary condition");
+            Y[N - 1] = y_N;
+            for(int i = N - 2; i >= 0; i--)
+                Y[i] = V[i] * Y[i + 1] + U[i];
         }
 
 
-        public double[] getCalculatedY()
+        public double[] getCalculatedY(double y_N)
         {
             CalculateV();
 
             CalculateU();
 
-            CalculateY();
+            CalculateY(y_N);
 
             return Y;
         }
