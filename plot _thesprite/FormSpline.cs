@@ -91,7 +91,7 @@ namespace plot__thesprite
 
         private double[] InitArrayX(int a , int b, double h)
         {
-            int N = Convert.ToInt32((b - a) / h + 1);
+            int N = Convert.ToInt32((b - a) / h) + 1;
             double[] local = new double[N];
 
             double j = a;
@@ -118,7 +118,7 @@ namespace plot__thesprite
 
         private void AlgorithmSpline()
         {
-            h = Convert.ToDouble(GU_b - GU_a) / N;
+            h = Convert.ToDouble(GU_b - GU_a) / (N - 1);
             h1 = h / 10;
 
             X = InitArrayX(GU_a, GU_b, h);
@@ -173,17 +173,19 @@ namespace plot__thesprite
 
             double t;
 
-            int i;
+            int i , j;
             try
             {
-                for (int j = 0; j < N; j++)
+                for ( j = 0; j < N - 1; j++)
                 {
                     i = (int)((S_x[j] - x[0]) / h);
 
                     t = (S_x[j] - x[i]) / h;
 
-                    localSpline_Y[j] = F[i] * F1(t) + F[i + 1] * F2(t) + m[i] * h * F3(t) + m[i + 1] * h * F4(t);
+                    localSpline_Y[j] = F[i] * F1(t) + F[i + 1] * F2(t) + m[i] * h * F3(t) + m[i + 1] * h * F4(t);                   
                 }
+
+                localSpline_Y[N - 1] = F[F.Length - 1];
             }
             catch (IndexOutOfRangeException ex)
             {
