@@ -74,14 +74,13 @@ namespace plot__thesprite
 
                 AlgorithmSpline();
 
-                Draw(X, F, 0); // Function
-                Draw(S_x, S_y, 1); // Spline2
-
+                Draw(X, F, "Function");
+                Draw(S_x, S_y, "Spline");
             }
             else MessageBox.Show("Enter N!");
         }
 
-        private void Draw(double[] x, double[] y, int graphic)
+        private void Draw(double[] x, double[] y, string graphic)
         {
             for (int i = 0, size = x.Length; i < size; i++)
             {
@@ -155,7 +154,7 @@ namespace plot__thesprite
                 a[i] = 4;
                 b[i] = 1;
                 c[i] = 1;
-                d[i] = 6 * (F[i + 1] + F[i - 1] - 2 * F[i]) / (h * h);
+                d[i] = 6 * (F[i - 1] + F[i + 1] - 2 * F[i]) / (h * h);
             }
 
             a[N - 1] = 1;
@@ -212,7 +211,7 @@ namespace plot__thesprite
 
         private double F4(double t)
         {
-            return t * (t - 1) * (t - 2) / 6;
+            return t * (t - 1) * (t + 1) / 6;
         }
     }
 }

@@ -155,7 +155,7 @@ namespace plot__thesprite
                 a[i] = 4;
                 b[i] = 1;
                 c[i] = 1;
-                d[i] = 3 * (F[i+1] - F[i - 1]) / h;
+                d[i] = 3 * (F[i + 1] - F[i - 1]) / h;
             }
 
             a[N - 1] = 1;
