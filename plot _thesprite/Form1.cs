@@ -24,6 +24,7 @@ namespace plot__thesprite
 
         private FormSpline nextForm;
         private FormSpline2 newSpline;
+        private FormB_Spline newBspline;
 
         private int N;
         private double H;
@@ -262,6 +263,13 @@ namespace plot__thesprite
             newSpline.SetN(int.Parse(textBox1.Text));
             newSpline.StartCalculateSpline();
             newSpline.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            newBspline = new FormB_Spline();
+            newBspline.CaclucateSpline();
+            newBspline.Show();
         }
     }
 }

@@ -96,9 +96,7 @@ namespace plot__thesprite
             double j = a;
 
             for (int i = 0; i < N; i++, j += h)
-            {
                 local[i] = j;
-            }
 
             return local;
         }
