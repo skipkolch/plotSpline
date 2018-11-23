@@ -25,9 +25,9 @@ namespace plot__thesprite
         {
             InitializeComponent();
 
-            this.a_x = -1.5;
-            this.b_x = 1.5;
-            N = 25;
+            this.a_x = -5.5;
+            this.b_x = 5.5;
+            N = 20;
 
             h = 0.09;
 
@@ -71,19 +71,22 @@ namespace plot__thesprite
             }
             else
             {
-                if (xi > -0.5 && xi < 0.5) return 1;
-                else if (Math.Abs(xi) == 0.5) return 0.5;
-                else return 0;
+                return Xi(xi);
             }           
         }
 
-        private int Xi(double a, double b, double x)
+        private double Xi(double xi)
         {
-            if (x >= a && x <= b)
-                return 1;
+            if (xi > -0.5 && xi < 0.5) return 1;
+            else if (Math.Abs(xi) == 0.5) return 0.5;
             else return 0;
         }
 
-
+        //private double Xi(double xi)
+        //{
+        //    if (xi > a_x && xi < b_x) return 1;
+        //    else if (Math.Abs(xi) == b_x) return 0.5;
+        //    else return 0;
+        //}
     }
 }
